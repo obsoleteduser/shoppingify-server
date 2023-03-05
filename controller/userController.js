@@ -20,7 +20,7 @@ class UserController{
     signIn = async (req, res) => {
         const user = await userModel.findOne({email: req.body.email})
         if(!user){
-            res.status(404).json("User doesn't exist")
+            res.status(404).json({message: "User doesn't exist"})
         }
         else{
             const hashedPassword = user.password
