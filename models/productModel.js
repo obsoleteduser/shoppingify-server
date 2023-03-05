@@ -8,5 +8,4 @@ const productSchema = new Schema({
     addedBy: { type: Schema.Types.ObjectId, ref: 'User', required: true }
 })
 
-const productModel = model('product', productSchema)
-module.exports = productModel
+exports.productModel = model('product', productSchema)
