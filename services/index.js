@@ -1,5 +1,3 @@
-require('dotenv').config()
-
 const { EMAIL_USER, EMAIL_PASSWORD } = require("../config/env");
 const nodemailer = require('nodemailer')
 
