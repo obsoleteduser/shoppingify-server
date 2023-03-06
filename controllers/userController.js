@@ -2,17 +2,22 @@ const userModel = require("../models/userModel")
 const { hashSync, compareSync } = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const { SECRET_KEY } = require("../config/env")
+const genCode = require("../helpers/codeGenerator")
+const { sendMail } = require("../services")
 
 
 class UserController{
 
     signUp = async (req, res)=>{
-        const user = await userModel.findOne({email: req.body.email})
+        const {email, password} = req.body
+        const user = await userModel.findOne({email})
+        const code = genCode()
         if(user){
             res.status(409).json({message: "User already existed"})
         }else{
-        const hashedPassword = hashSync(req.body.password, 4)
-        const newUser =  await userModel.create({email:req.body.email, password: hashedPassword})
+        const hashedPassword = hashSync(password, 4)
+        await sendMail(email, 'Activation code', code)
+        const newUser =  await userModel.create({email, password: hashedPassword, status: 'passive', code})
         res.status(200).json(newUser)
     }
 }
