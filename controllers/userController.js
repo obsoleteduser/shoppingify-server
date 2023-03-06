@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken')
 const { SECRET_KEY } = require("../config/env")
 const genCode = require("../helpers/codeGenerator")
 const { sendMail } = require("../services")
+const { findOne } = require("../models/productModel")
 
 
 class UserController{
@@ -17,8 +18,9 @@ class UserController{
         }else{
         const hashedPassword = hashSync(password, 4)
         await sendMail(email, 'Activation code', code)
-        const newUser =  await userModel.create({email, password: hashedPassword, status: 'passive', code})
-        res.status(200).json(newUser)
+        const newUser =  await userModel.create({email, password: hashedPassword, status: 'passive', verificationCode: code})
+        const token = jwt.sign({id: newUser._id}, SECRET_KEY)
+        res.status(200).json({token})
     }
 }
 
@@ -40,6 +42,21 @@ class UserController{
             }
         }
     }
+
+
+    userConfirm = async (req, res) => {
+        const { verifyCode } = req.body
+        const user = await userModel.findOne({ verificationCode: verifyCode})
+        if(user){
+            user.status = 'active'
+            user.save()
+            res.json({message: "User confirmed"})
+        }
+        else{
+            res.json({message: "Incorrect number"})
+        }
+    }
+
 
     deleteUser = async (req, res)=>{
        const deletedOne = await userModel.deleteOne({email: req.body.email})

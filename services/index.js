@@ -14,11 +14,13 @@ class Service{
       });
     
 
-      sendMail = async (email, subject, html) =>{
+      sendMail = async (email, subject, code) =>{
         await this.transporter.sendMail({
             to: email,
             subject,
-            html: `<h2>${html}</h2>`
+            html: `
+            <h1>This is your verification number:</h1>
+            <h2>${code}</h2>`
         })
       }
 

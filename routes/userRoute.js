@@ -5,6 +5,7 @@ const userRouter = new Router()
 
 userRouter.post('/signup', userController.signUp)
 userRouter.post('/signin', userController.signIn)
+userRouter.post('/confirm', userController.userConfirm)
 userRouter.delete('/delete', userController.deleteUser)
 
 
