@@ -11,7 +11,7 @@ class UserController{
     signUp = async (req, res)=>{
         const {email, password} = req.body
         const user = await userModel.findOne({email})
-        const code = genCode()
+        const code = genCode(6)
         if(user){
             res.status(409).json({message: "User already existed"})
         }else{
@@ -39,6 +39,11 @@ class UserController{
                 res.status(200).json({token})
             }
         }
+    }
+
+    deleteUser = async (req, res)=>{
+       const deletedOne = await userModel.deleteOne({email: req.body.email})
+        res.status(200).send("User has been removed")
     }
 
 }
