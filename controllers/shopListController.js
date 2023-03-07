@@ -2,17 +2,19 @@ const shopListModel = require("../models/shopListModel")
 
 class ShopListController{
 
-    setList = (req, res) =>{
+    setList = async (req, res) =>{
         const user = req.user
         const { name, products } = req.body
-        const shopList = shopListModel.create({name, products, createdBy: user.id})
+        const shopList = await shopListModel.create({name, products, createdBy: user.id})
         res.send(shopList)
     }
     getOneList = (req, res) =>{
 
     }
-    getLists = (req, res) =>{
-
+    getLists = async (req, res) =>{
+        const user = req.user
+        const shopLists = await shopListModel.find({_id: user.id}).populate('products.product')
+        res.status(200).json([...shopLists])
     }
 
 }
