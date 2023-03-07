@@ -10,7 +10,7 @@ class ProductController{
         res.status(200).json([...products])
     }
 
-    addProduct = async (req, res)=>{
+    setProduct = async (req, res)=>{
         const user = req.user
         const post = await productModel.create({...req.body, addedBy: user.id})
         res.send(post)

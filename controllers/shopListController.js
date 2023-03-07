@@ -1,7 +1,7 @@
 class ShopListController{
 
     setList = () =>{}
-    getList = () =>{}
+    getOneList = () =>{}
     getLists = () =>{}
 
 }
