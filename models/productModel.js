@@ -5,7 +5,7 @@ const productSchema = new Schema({
     note: {type: String},
     image: {type: String},
     category: {type: String},
-    addedBy: { type: Schema.Types.ObjectId, ref: 'User', required: true }
+    addedBy: { type: Schema.Types.ObjectId, ref: 'user', required: true }
 })
 
 exports.productModel = model('product', productSchema)
