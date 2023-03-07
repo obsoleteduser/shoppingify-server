@@ -2,7 +2,11 @@ const { Schema, model } = require('mongoose')
 
 
 const shopListSchema = Schema({
-    products: [{type: Schema.Types.ObjectId, ref: 'product'}],
+    name: {type: String, required: true},
+    products: [{product: {type: Schema.Types.ObjectId, ref: 'product'},
+    quantity: Number,
+    bought: Boolean
+}],
     status: {type: String, enum: ['canceled', 'completed']},
     createdAt: {type: Date, default: new Date()},
     createdBy: {type: Schema.Types.ObjectId, ref: 'user'}
