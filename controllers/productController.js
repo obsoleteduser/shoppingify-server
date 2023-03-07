@@ -7,8 +7,8 @@ class ProductController{
     getProducts = async (req, res) =>{
         const user = req.user
         
-       const product = await productModel.find({addedBy: user.id})
-        res.status(200).json([...product])
+       const products = await productModel.find({addedBy: user.id})
+        res.status(200).json([...products])
     }
 
     addProduct = async (req, res)=>{
