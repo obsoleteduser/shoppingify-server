@@ -1,6 +1,5 @@
-const connectDb = require("../config/db_config")
 const { productModel } = require("../models/productModel")
-const userModel = require("../models/userModel")
+
 
 class ProductController{
 

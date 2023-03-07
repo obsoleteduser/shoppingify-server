@@ -4,7 +4,6 @@ const jwt = require('jsonwebtoken')
 const { SECRET_KEY } = require("../config/env")
 const genCode = require("../helpers/codeGenerator")
 const { sendMail } = require("../services")
-const { findOne } = require("../models/productModel")
 
 
 class UserController{
