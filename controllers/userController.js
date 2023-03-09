@@ -49,7 +49,7 @@ class UserController{
         const user = await userModel.findOne({ verificationCode: verifyCode})
         if(user){
             user.status = 'active'
-            user.save()
+            await user.save()
             const token = jwt.sign({id: newUser._id}, SECRET_KEY)
             res.status(200).json({token})
         }
