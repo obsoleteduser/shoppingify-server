@@ -1,0 +1,18 @@
+# Base image
+FROM node:18.15.0-alpine
+
+
+WORKDIR /usr/src/app
+
+
+COPY package*.json ./
+
+
+RUN yarn install
+
+
+COPY . .
+
+EXPOSE 3000
+
+CMD ["yarn", "start"]
