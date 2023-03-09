@@ -50,11 +50,11 @@ class UserController{
         if(user){
             user.status = 'active'
             await user.save()
-            const token = jwt.sign({id: newUser._id}, SECRET_KEY)
+            const token = jwt.sign({id: user._id}, SECRET_KEY)
             res.status(200).json({token})
         }
         else{
-            res.json({message: "Incorrect number"})
+            res.status(403).json({message: "Validation code is not valid"})
         }
     }
 
