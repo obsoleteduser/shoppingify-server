@@ -10,9 +10,8 @@ const shopListRoute = require('./routes/shopListRoute')
 const start = require('./services/starter')
 
 const app = express()
-
-app.use(express.json())
 app.use(cors())
+app.use(express.json())
 app.use('/auth', userRouter)
 app.use('/user', authenticateToken, productRoute)
 app.use('/user', authenticateToken, shopListRoute)
