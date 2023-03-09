@@ -16,6 +16,7 @@ class UserController{
             res.status(409).json({message: "User already existed"})
         }else{
         const hashedPassword = hashSync(password, 4)
+        console.log(email, code)
         await sendMail(email, 'Activation code', code)
         const newUser =  await userModel.create({email, password: hashedPassword, status: 'passive', verificationCode: code})
         const token = jwt.sign({id: newUser._id}, SECRET_KEY)
@@ -49,7 +50,8 @@ class UserController{
         if(user){
             user.status = 'active'
             user.save()
-            res.json({message: "User confirmed"})
+            const token = jwt.sign({id: newUser._id}, SECRET_KEY)
+            res.status(200).json({token})
         }
         else{
             res.json({message: "Incorrect number"})

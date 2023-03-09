@@ -13,13 +13,17 @@ class Service{
     
 
       sendMail = async (email, subject, code) =>{
-        await this.transporter.sendMail({
+        try{
+          await this.transporter.sendMail({
             to: email,
             subject,
             html: `
             <h1>This is your verification number:</h1>
             <h2>${code}</h2>`
         })
+        }catch(err){
+          console.log("Failed", err)
+        }
       }
 
 }
