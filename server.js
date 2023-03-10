@@ -9,6 +9,7 @@ const authenticateToken = require('./middleware/authenticateToken')
 const shopListRoute = require('./routes/shopListRoute')
 const start = require('./services/starter')
 const { default: helmet } = require('helmet')
+const bodyParser = require('body-parser')
 
 const app = express()
 app.use(helmet());   
