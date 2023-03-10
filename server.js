@@ -8,8 +8,10 @@ const productRoute = require('./routes/productRoute')
 const authenticateToken = require('./middleware/authenticateToken')
 const shopListRoute = require('./routes/shopListRoute')
 const start = require('./services/starter')
+const { default: helmet } = require('helmet')
 
 const app = express()
+app.use(helmet());   
 app.use(cors())
 app.use(express.json())
 app.use('/auth', userRouter)
