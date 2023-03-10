@@ -6,7 +6,7 @@ const shopListRoute = Router()
 
 shopListRoute.post('/shoplist', shopListController.setList)
 shopListRoute.get('/shoplist', shopListController.getLists)
-shopListRoute.get('/shoplist', shopListController.getWaitingList)
+shopListRoute.get('/shoplistwaiting', shopListController.getWaitingList)
 
 
 module.exports = shopListRoute
