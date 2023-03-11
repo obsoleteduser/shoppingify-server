@@ -4,8 +4,8 @@ class ShopListController{
 
     setList = async (req, res) =>{
         const user = req.user
-        const { name, products } = req.body
-        const shopList = await shopListModel.create({name, products, createdBy: user.id})
+        const { name, products, status } = req.body
+        const shopList = await shopListModel.create({name, products, status, createdBy: user.id})
         res.send(shopList)
     }
     getWaitingList = async (req, res) =>{
