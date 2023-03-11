@@ -64,6 +64,11 @@ class UserController{
         res.status(200).send("User has been removed")
     }
 
+
+    wakeUp = async (req, res) =>{
+        res.status(200).json({message: 'online'})
+    }
+
 }
 
 module.exports = new UserController()
