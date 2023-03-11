@@ -12,6 +12,7 @@ const { default: helmet } = require('helmet')
 const bodyParser = require('body-parser')
 
 const app = express()
+app.use(cors())
 app.options('/user/shoplist', cors(), (req, res) => {
     res.setHeader('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
