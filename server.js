@@ -12,7 +12,6 @@ const { default: helmet } = require('helmet')
 const bodyParser = require('body-parser')
 
 const app = express()
-app.use(helmet());   
 app.use(cors())
 app.use(express.json())
 app.use('/auth', userRouter)
