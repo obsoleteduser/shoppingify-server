@@ -9,7 +9,7 @@ class ShopListController{
         res.send(shopList)
     }
     getWaitingList = async (req, res) =>{
-        const list = await shopListModel.findOne({status: 'waiting'}, { sort: { 'createdAt' : -1 }}).populate('products.product')
+        const list = await shopListModel.findOne({status: 'waiting'}, { sort: { 'createdAt' : -1 }}).populate('product')
         res.status(200).json(list)
     }
     getLists = async (req, res) =>{
