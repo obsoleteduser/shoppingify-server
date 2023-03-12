@@ -8,7 +8,7 @@ const shopListSchema = Schema({
     bought: Boolean
 }],
     status: {type: String, enum: ['waiting','canceled', 'completed'], required: true},
-    createdAt: {type: Date, default: new Date()},
+    createdAt: {type: Date, default: new Date},
     createdBy: {type: Schema.Types.ObjectId, ref: 'user'}
 })
 
