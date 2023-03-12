@@ -9,8 +9,9 @@ class ShopListController{
         res.send(shopList)
     }
     getWaitingList = async (req, res) =>{
-        const list = await shopListModel.findOne({status: 'waiting'}, { sort: { 'createdAt' : -1 }}).populate('products.product').exec()
-        res.status(200).json(list)
+        const list = await shopListModel.findOne({status: 'waiting'}, { sort: { 'createdAt' : -1 }}).populate('products.product')
+        const populatedProducts = await shopListModel.create(list)
+        res.status(200).json(populatedProducts)
     }
     getLists = async (req, res) =>{
         const user = req.user
