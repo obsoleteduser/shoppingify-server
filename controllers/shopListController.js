@@ -20,9 +20,9 @@ class ShopListController{
     }
 
     updateStatus = async (req, res) =>{
-
-        const shopList = await shopListModel.findOne({status: "waiting"})
-        
+        const user = req.user
+        const { status } = req.body
+        const shopList = await shopListModel.findOneAndUpdate({status: "waiting", createdBy: user.id}, {status})
     }
 
 }
