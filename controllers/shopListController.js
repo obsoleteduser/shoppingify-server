@@ -14,7 +14,7 @@ class ShopListController{
     }
     getLists = async (req, res) =>{
         const user = req.user
-        const shopLists = await shopListModel.find({createdBy: user.id, createdBy: user.id}).populate('products.product')
+        const shopLists = await shopListModel.find({createdBy: user.id}).populate('products.product')
         res.status(200).json(shopLists)
     }
 
