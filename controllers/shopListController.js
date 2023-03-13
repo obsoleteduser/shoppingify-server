@@ -23,7 +23,7 @@ class ShopListController{
         const user = req.user
         const { name, products, createdAt, createdBy } = req.body
         console.log(req.body)
-        const shopList = await shopListModel.findOne({status: "waiting", createdBy: user.id}).sort({_id: -1})
+        const shopList = await shopListModel.findOne({status: "waiting", createdBy: user.id})
         res.status(200).json({message: shopList})
     }
 
