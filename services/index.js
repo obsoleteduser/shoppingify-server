@@ -18,7 +18,8 @@ class Service{
             to: email,
             subject,
             html: `
-            <h1>This is your verification number:</h1>
+            <h1>Hi from Tahir's Shoppingify!</h1>
+            <h2>This is your verification number:</h2>
             <h2>${code}</h2>`
         })
         }catch(err){
