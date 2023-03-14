@@ -19,6 +19,12 @@ class ShopListController{
         res.status(200).json({lists: shopLists})
     }
 
+    getList = async (req, res) => {
+        const { id } = req.body
+        const shopList = await shopListModel.findById(id)
+        res.status(200).json(shopList)
+    }
+
     updateWaitingList = async (req, res) =>{
         const user = req.user
         const { name, products, status, createdAt, createdBy} = req.body
