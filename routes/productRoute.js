@@ -6,6 +6,6 @@ const productRoute = Router()
 
 productRoute.get('/products', productController.getProducts)
 productRoute.post('/products', productController.setProduct)
-productRoute.post('/products', productController.deleteProduct)
+productRoute.post('/products/delete', productController.deleteProduct)
 
 module.exports = productRoute

@@ -17,9 +17,8 @@ class ProductController{
     }
 
     deleteProduct = async (req, res)=>{
-       
-        console.log(req.body)
-        // await productModel.deleteOne({_id: id})
+        const { id } = req.body
+        await productModel.deleteOne({_id: id})
         res.status(200).json({message: "deleted"})
     }
 
