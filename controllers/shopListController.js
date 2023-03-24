@@ -40,7 +40,7 @@ class ShopListController {
 
        
   try {
-    const shopLists = await ShopList.find({ createdBy: req.user.id, status: 'completed' }).populate('products.product');
+    const shopLists = await shopListModel.find({ createdBy: req.user.id, status: 'completed' }).populate('products.product');
     
     const productQuantityMap = new Map();
     
