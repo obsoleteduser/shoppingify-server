@@ -69,7 +69,7 @@ class ShopListController {
       }
     }
     
-    const mostPopularProductDetails = await productModel.findById(mostPopularProduct);
+    const mostPopularProductDetails = await productModel.findById(mostPopularProduct).select('name');
     
     res.json({
       productName: mostPopularProductDetails,
