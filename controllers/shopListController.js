@@ -47,7 +47,7 @@ class ShopListController {
     
     shopLists.forEach((shopList) => {
       shopList.products.forEach((product) => {
-        const productId = product._id;
+        const productId = product.product._id;
         const quantity = product.quantity;
         
         if (!productQuantityMap.has(productId)) {
