@@ -72,7 +72,7 @@ class ShopListController {
     const mostPopularProductDetails = await productModel.findById(mostPopularProduct);
     
     res.json({
-    //   productName: mostPopularProductDetails.name,
+      productName: mostPopularProductDetails,
       totalQuantity: mostPopularProductQuantity
     });
     
