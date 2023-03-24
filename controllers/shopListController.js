@@ -38,7 +38,7 @@ class ShopListController {
 
   try {
     const user = req.user // assuming req.user contains the ID of the target user
-    const shopLists = await shopListModel.find({ createdBy: user, status: 'completed' })
+    const shopLists = await shopListModel.find({ createdBy: user.id, status: 'completed' })
     const productMap = new Map()
     
     shopLists.forEach((list) => {
