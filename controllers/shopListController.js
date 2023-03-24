@@ -1,3 +1,4 @@
+const { productModel } = require("../models/productModel")
 const shopListModel = require("../models/shopListModel")
 
 class ShopListController {
@@ -46,7 +47,7 @@ class ShopListController {
     
     shopLists.forEach((shopList) => {
       shopList.products.forEach((product) => {
-        const productId = product.product.id;
+        const productId = product.product._id;
         const quantity = product.quantity;
         
         if (!productQuantityMap.has(productId)) {
@@ -68,7 +69,7 @@ class ShopListController {
       }
     }
     
-    const mostPopularProductDetails = await Product.findById(mostPopularProduct);
+    const mostPopularProductDetails = await productModel.findById(mostPopularProduct);
     
     res.json({
       productName: mostPopularProductDetails.name,
