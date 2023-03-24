@@ -81,8 +81,6 @@ class ShopListController {
   }
 
 
-module.exports = router;
-
 
         //Dude
 
