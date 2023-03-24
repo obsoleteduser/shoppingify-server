@@ -42,7 +42,7 @@ class ShopListController {
        
   try {
     const shopLists = await shopListModel.find({ createdBy: req.user.id, status: 'completed' }).populate('products.product');
-    
+    console.log(shopLists)
     const productQuantityMap = new Map();
     
     shopLists.forEach((shopList) => {
