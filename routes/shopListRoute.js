@@ -9,5 +9,6 @@ shopListRoute.get('/shoplist', shopListController.getLists)
 shopListRoute.get('/shoplistwaiting', shopListController.getWaitingList)
 shopListRoute.put('/updatewaitinglist', shopListController.updateWaitingList)
 shopListRoute.post('/targetlist', shopListController.getList)
+shopListRoute.get('popularproduct', shopListController.getPopularOne)
 
 module.exports = shopListRoute
