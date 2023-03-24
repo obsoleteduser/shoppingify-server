@@ -35,38 +35,44 @@ class ShopListController {
 
     getPopularOne = async (req, res) => {
 
-        try {
-            const user = req.user 
-            const shopLists = await shopListModel.find({ createdBy: user.id, status: 'completed' })
-            const productMap = new Map()
 
-            shopLists.forEach((list) => {
-                list.products.forEach((product) => {
-                    if (productMap.has(product.product)) {
-                        productMap.set(product.product, productMap.get(product.product) + product.quantity)
-                    } else {
-                        productMap.set(product.product, product.quantity)
-                    }
-                })
-            })
-
-            let maxQuantity = 0
-            let maxProduct = null
-            for (const [product, quantity] of productMap.entries()) {
-                if (quantity > maxQuantity) {
-                    maxQuantity = quantity
-                    maxProduct = product
-                }
-            }
-
-            res.json({
-                productName: maxProduct.name,
-                quantity: maxQuantity
-            })
-        } catch (err) {
-            console.error(err)
-            res.status(500).json({ message: 'Internal server error' })
+  try {
+    const user = req.user // assuming req.user contains the ID of the target user
+    const shopLists = await shopListModel.find({ createdBy: user, status: 'completed' })
+    const productMap = new Map()
+    
+    shopLists.forEach((list) => {
+      list.products.forEach((product) => {
+        if (productMap.has(product.product)) {
+          productMap.set(product.product, productMap.get(product.product) + product.quantity)
+        } else {
+          productMap.set(product.product, product.quantity)
         }
+      })
+    })
+
+    let maxQuantity = 0
+    let maxProduct = null
+    for (const [productId, quantity] of productMap.entries()) {
+      if (quantity > maxQuantity) {
+        maxQuantity = quantity
+        maxProduct = productId
+      }
+    }
+
+    const product = await productModel.findById(maxProduct)
+    res.json({
+      productName: product.name,
+      quantity: maxQuantity
+    })
+  } catch (err) {
+    console.error(err)
+    res.status(500).json({ message: 'Internal server error' })
+  }
+
+
+
+        
     }
 
 }
