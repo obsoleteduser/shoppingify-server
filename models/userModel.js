@@ -1,7 +1,7 @@
 const { Schema, model } = require('mongoose')
 
 const userSchema = Schema({
-    email: {type: String, required: true, unique: true, match: /^\S+@\S+\.\S+$/},
+    email: {type: String, required: true, unique: true, match: /^\S+@\S+\.\S+$/, lowercase: true},
     password: {type: String, required: true, min: 5},
     createdAt: {type: Date, default: new Date() },
     verificationCode: {type: Number, required: true},
