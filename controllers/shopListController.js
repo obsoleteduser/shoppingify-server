@@ -17,6 +17,7 @@ class ShopListController {
     getLists = async (req, res) => {
         const user = req.user
         const shopLists = await shopListModel.find({ createdBy: user.id }).populate('products.product')
+        console.log(shopLists)
         res.status(200).json({ lists: shopLists })
     }
 
@@ -36,55 +37,150 @@ class ShopListController {
 
     getPopularOne = async (req, res) => {
 
-  
-        //Dude
-
        
-  try {
-    const shopLists = await shopListModel.find({ createdBy: req.user.id, status: 'completed' }).populate('products.product')
-    console.log(shopLists)
-    const productQuantityMap = new Map();
-    
-    shopLists.forEach((shopList) => {
-      shopList.products.forEach((product) => {
-        const productId = product._id;
-        const quantity = product.quantity;
-        
-        if (!productQuantityMap.has(productId)) {
-          productQuantityMap.set(productId, quantity);
-        } else {
-          const currentQuantity = productQuantityMap.get(productId);
-          productQuantityMap.set(productId, currentQuantity + quantity);
+      try {
+        const shopLists = await shopListModel.find({ createdBy: req.user.id, status: 'completed' }).populate('products.product');
+      
+        const productQuantityMap = new Map();
+      
+        shopLists.forEach((shopList) => {
+          shopList.products.forEach((product) => {
+            console.log("What I need: ", product);
+            const productDoc = product.product;
+            if (productDoc && productDoc._id) {
+              const productId = productDoc._id;
+              const quantity = product.quantity;
+      
+              if (!productQuantityMap.has(productId)) {
+                productQuantityMap.set(productId, quantity);
+              } else {
+                const currentQuantity = productQuantityMap.get(productId);
+                productQuantityMap.set(productId, currentQuantity + quantity);
+              }
+            }
+          });
+        });
+      
+        let mostPopularProduct = null;
+        let mostPopularProductQuantity = 0;
+      
+        for (const [productId, quantity] of productQuantityMap) {
+          if (quantity > mostPopularProductQuantity) {
+            mostPopularProductQuantity = quantity;
+            mostPopularProduct = productId;
+          }
         }
-      });
-    });
-    
-    let mostPopularProduct = null;
-    let mostPopularProductQuantity = 0;
-    
-    for (const [productId, quantity] of productQuantityMap) {
-      if (quantity > mostPopularProductQuantity) {
-        mostPopularProductQuantity = quantity;
-        mostPopularProduct = productId;
+      
+        // Find the most popular product by ID and retrieve its name from the shopList object
+        const mostPopularProductDoc = shopLists.find((shopList) => shopList.products.some((product) => product.product && product.product._id && product.product._id.toString() === mostPopularProduct.toString()));
+        const mostPopularProductName = mostPopularProductDoc.products.find((product) => product.product && product.product._id && product.product._id.toString() === mostPopularProduct.toString()).product.name;
+      
+        res.json({
+          productName: mostPopularProductName,
+          totalQuantity: mostPopularProductQuantity
+        });
+      
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
       }
+      
+
     }
-    
-    const mostPopularProductDetails = await productModel.findById(mostPopularProduct).select('name');
-    
-    res.json({
-      productName: mostPopularProductDetails,
-      totalQuantity: mostPopularProductQuantity
-    });
-    
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Server error' });
-  }
+
+    getFullStatistics = async (req, res) => {
+
+      try {
+        const shopLists = await shopListModel.find({ createdBy: req.user.id, status: 'completed' }).populate('products.product');
+      
+        const productQuantityMap = new Map();
+      
+        shopLists.forEach((shopList) => {
+          shopList.products.forEach((product) => {
+            console.log("What I need: ", product);
+            const productDoc = product.product;
+            if (productDoc && productDoc._id) {
+              const productId = productDoc._id;
+              const quantity = product.quantity;
+      
+              if (!productQuantityMap.has(productId)) {
+                productQuantityMap.set(productId, quantity);
+              } else {
+                const currentQuantity = productQuantityMap.get(productId);
+                productQuantityMap.set(productId, currentQuantity + quantity);
+              }
+            }
+          });
+        });
+      
+        const productQuantityArray = [];
+      
+        for (const [productId, quantity] of productQuantityMap) {
+          const productDoc = await productModel.findById(productId);
+          const productName = productDoc.name;
+          const productQuantity = quantity;
+          productQuantityArray.push({ product: productName, quantity: productQuantity });
+        }
+      
+        res.json({
+          productQuantity: productQuantityArray
+        });
+      
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+      }
+      
 
 
+    }
 
-        //Dude
 
+    getProductsPercentage = async (req, res) => {
+
+      try {
+        const shopLists = await shopListModel.find({ createdBy: req.user.id, status: 'completed' }).populate('products.product');
+      
+        const productQuantityMap = new Map();
+        let totalQuantity = 0;
+      
+        shopLists.forEach((shopList) => {
+          shopList.products.forEach((product) => {
+            console.log("What I need: ", product);
+            const productDoc = product.product;
+            if (productDoc && productDoc._id) {
+              const productId = productDoc._id;
+              const quantity = product.quantity;
+      
+              if (!productQuantityMap.has(productId)) {
+                productQuantityMap.set(productId, quantity);
+              } else {
+                const currentQuantity = productQuantityMap.get(productId);
+                productQuantityMap.set(productId, currentQuantity + quantity);
+              }
+              totalQuantity += quantity;
+            }
+          });
+        });
+      
+        const productPercentageArray = [];
+      
+        for (const [productId, quantity] of productQuantityMap) {
+          const productDoc = await productModel.findById(productId);
+          const productName = productDoc.name;
+          const productPercentage = (quantity / totalQuantity) * 100;
+          productPercentageArray.push({ product: productName, percentage: productPercentage.toFixed(2) });
+        }
+      
+        res.json({
+          productPercentage: productPercentageArray
+        });
+      
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+      }
+      
 
     }
 
