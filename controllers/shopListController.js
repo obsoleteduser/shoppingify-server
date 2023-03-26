@@ -23,7 +23,7 @@ class ShopListController {
 
     getList = async (req, res) => {
         const { id } = req.body
-        const shopList = await shopListModel.findById(id).populate('products.product')
+        const shopList = await shopListModel.findById(id).populate('products.product', 'name')
         res.status(200).json(shopList)
     }
 
